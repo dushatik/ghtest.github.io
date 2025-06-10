@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Image based tracking AR.js demo</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script>
+      AFRAME.registerComponent("modify-materials", {
+        init: function () {
+          this.el.addEventListener("model-loaded", () => {
+            const obj = this.el.getObject3D("scene");
+            obj.traverse((node) => {
+              if (node.name.indexOf("3D_Object_") !== -1) {
+                node.material.color.set("red");
+              }
+            });
+          });
+        },
+      });
+    </script>
+
+    <style>
+      .arjs-loader {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .arjs-loader div {
+        text-align: center;
+        font-size: 1.25em;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body style="margin: 0px; overflow: hidden">
+    <div class="arjs-loader">
+      <div>Loading, please wait...</div>
+    </div>
+
+    <a-scene
+      vr-mode-ui="enabled: false;"
+      renderer="logarithmicDepthBuffer: true;"
+      embedded
+      arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
+    >
+
+      <!-- AR-картинка -->
+
+      <a-nft
+        type="nft"   
+        url="https://cdn.glitch.global/50ee1cf1-2264-47d7-a702-a79aa5915c81/Cat_1" 
+        smooth="true"
+        smoothcount="10"
+        smoothtolerance=".01"
+        smooththreshold="5"
+      >
+        <a-image
+          src="https://cdn.glitch.global/50ee1cf1-2264-47d7-a702-a79aa5915c81/black_cat.jpg"
+          width="500px"
+          height="500px"
+          position="200 -890 -50"
+          rotation="-90 0 0"
+        >
+        </a-image>
+      </a-nft>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
